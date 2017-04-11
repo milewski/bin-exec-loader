@@ -1,3 +1,4 @@
+import * as util from "util";
 /**
  * Convert CamelCasedString to camel-cased-string
  */
@@ -6,15 +7,42 @@ export function toDashed(string: string): string {
 }
 
 /**
+ * Scape Regular Expression String
+ */
+export function escape(string): string {
+    return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
+/**
+ * --$123... or -$1...
+ */
+export function stripeOutDollars(string: string) {
+    return (typeof string === 'string') ? !string.match(/^(-?)+\$(\d+)$/) : true
+}
+
+/**
+ * -$ --$$ --$$$$$$$...
+ * converts to
+ *  -   --   -------
+ */
+export function parseDollars(string: string) {
+    return (typeof string === 'string') ? string.replace(/^(-?)+\$|(?=\$+$)./g, '-') : string
+}
+
+/**
  * Replace :tokens with actually data
  */
-export function tokenizer(string: string | string[], replacements, identifier: '::'): string[] {
+export function tokenizer(args: string | string[], replacements, identifier = '[%s]'): string[] {
 
-    if (!Array.isArray(string)) {
-        string = [string]
+    if (!Array.isArray(args)) {
+        args = [args]
     }
 
-    return string.map(source => {
+    const expressions = Object
+        .keys(replacements)
+        .map(key => [escape(util.format(identifier, key)), replacements[key]])
+
+    return args.map(source => {
 
         if (typeof source === 'function') {
 
@@ -28,9 +56,15 @@ export function tokenizer(string: string | string[], replacements, identifier: '
 
         }
 
-        for (let key in replacements) {
-            source = source.replace(new RegExp(identifier + key, 'g'), replacements[key])
-        }
+        expressions.forEach(([expression, replacement]) => {
+
+            if (typeof replacement === 'function')
+                replacement = replacement()
+
+            if (typeof source === 'string')
+                source = source.replace(new RegExp(expression, 'g'), replacement)
+
+        })
 
         return source;
 

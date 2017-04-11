@@ -1,5 +1,5 @@
 {
-  "name": "video-loader",
+  "name": "any-loader",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,7 +17,7 @@
     "file-type": "^4.1.0",
     "handbrake-bin": "^1.0.8",
     "loader-utils": "^1.1.0",
-    "object-to-spawn-args": "^1.1.0",
+    "options-to-spawn-args": "^2.1.0",
     "temp-write": "^3.2.0",
     "tempy": "^0.1.0"
   },
@@ -26,9 +26,12 @@
     "@types/node": "^7.0.12",
     "expect.js": "^0.3.1",
     "file-loader": "^0.11.1",
+    "file-type": "^4.1.0",
     "fs-extra": "^2.1.2",
     "mocha": "^3.2.0",
+    "raw-loader": "^0.5.1",
     "typescript": "^2.2.2",
+    "url-loader": "^0.5.8",
     "webpack": "^2.3.3"
   }
 }

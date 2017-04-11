@@ -11,7 +11,6 @@ export default function (content) {
         options: OptionsInterface = Object.assign({
             enable: true,
             quote: false,
-            tokenIdentifier: ':',
             prefix: 'standard',
             extension: null,
             equals: false,
@@ -37,7 +36,6 @@ export default function (content) {
         binary: options.binary,
         resource: this.resource,
         extension: options.extension,
-        token: options.tokenIdentifier,
         args: toSpawnArgs(options.args, { ...options }),
     }).then(({ data, extension }) => {
         this.resource = this.resource.replace(/\.[^.]+$/, extension)

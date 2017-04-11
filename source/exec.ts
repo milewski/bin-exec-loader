@@ -1,20 +1,20 @@
-import { tokenizer } from "./helpers";
+import { parseDollars, stripeOutDollars, tokenizer } from "./helpers";
 import * as fs from "fs";
 import * as exec from "execa";
 import * as tempWrite from "temp-write";
 import * as path from "path";
 
-/**
- * --$123... or -$1...
- */
-function stripeOutDollars(srt) {
-    return !srt.match(/^(-?)+\$(\d+)?$/)
-}
-
-export function execBuffer({ input, binary, resource, extension, args, token }) {
+export function execBuffer({ input, binary, resource, extension, args }) {
 
     if (!Buffer.isBuffer(input)) {
         return Promise.reject(new Error('Input is must to be a buffer'));
+    }
+
+    /**
+     * If it's a function resolve things locally
+     */
+    if (typeof binary !== 'string') {
+        return Promise.reject(new Error('Binary should be a string or an absolute path to an executable file.'));
     }
 
     let file = path.parse(resource)
@@ -23,57 +23,52 @@ export function execBuffer({ input, binary, resource, extension, args, token }) 
         extension = extension({ ...file })
     }
 
+    let cache = {}
+
     let params = {
         input: tempWrite.sync(input, file.base),
-        output: tempWrite.sync(null, file.base.replace(/\.[^.]+$/, extension || file.ext))
+        ext: (extension || file.ext).replace('.', ''),
+        name: file.name,
+        path: () => cache['path'] || (cache['path'] = path.parse(params.output()).dir + '/'),
+        output: () => cache['output'] || (cache['output'] = tempWrite.sync(null, `${params.name}.${params.ext}`))
     }
 
-    let options = tokenizer(args, params, token).filter(stripeOutDollars);
+    let options = tokenizer(args, params).filter(stripeOutDollars).map(parseDollars);
+
+    /**
+     * Normalize Paths
+     */
+    options = options.map(option => {
+
+        if ((typeof option === 'string') && option.includes(params.path())) {
+            return path.normalize(option)
+        }
+
+        return option;
+
+    })
 
     return exec(binary, options)
         .then(result => {
             return new Promise(resolve => {
-                fs.readFile(params.output, (error, data) => {
+
+                /**
+                 * Get the final output
+                 */
+                const output = options
+                    .filter(option => option.includes(params.path()))
+                    .pop()
+
+                if (!output)
+                    throw new Error('Invalid Output: ' + JSON.stringify(options))
+
+                fs.readFile(output, (error, data) => {
                     if (error) throw error
-                    resolve({ data, extension: path.parse(params.output).ext })
+                    resolve({ data, extension: path.parse(output).ext })
                 })
+
             })
-        }).catch(e => {
-            console.log(e)
+
         })
 
 }
-//
-// module.exports = opts => {
-//
-//     opts = Object.assign({}, opts);
-//
-//     if (!Buffer.isBuffer(opts.input)) {
-//         return Promise.reject(new Error('Input is required'));
-//     }
-//
-//     if (typeof opts.bin !== 'string') {
-//         return Promise.reject(new Error('Binary is required'));
-//     }
-//
-//     if (!Array.isArray(opts.args)) {
-//         return Promise.reject(new Error('Arguments are required'));
-//     }
-//
-//     const inputPath = tempfile();
-//     const outputPath = tempfile();
-//
-//     opts.args = opts.args.map(x => x === input ? inputPath : x === output ? outputPath : x);
-//
-//     const promise = fsP.writeFile(inputPath, opts.input)
-//         .then(() => execa(opts.bin, opts.args))
-//         .then(() => fsP.readFile(outputPath));
-//
-//     return pFinally(promise, () => Promise.all([
-//         rmP(inputPath),
-//         rmP(outputPath)
-//     ]));
-// };
-//
-// module.exports.input = input;
-// module.exports.output = output;
