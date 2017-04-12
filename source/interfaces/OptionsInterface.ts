@@ -2,9 +2,11 @@ export interface OptionsInterface {
     enable: boolean
     quote: boolean
     binary?: string
+    export?: boolean
+    name?: string
+    emitFile?: boolean
     args: {},
     optimize?: boolean
-    tokenIdentifier?: ':'
-    equals?: boolean,
-    extension?: string
+    cache?: boolean
+    equals?: boolean
 }

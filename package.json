@@ -1,5 +1,5 @@
 {
-  "name": "any-loader",
+  "name": "bin-exec-loader",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "handbrake": "handbrake --help",
     "test": "mocha test/test.js --no-timeouts",
     "webpack:node": "node --inspect --debug-brk ./node_modules/webpack/bin/webpack",
-    "webpack": "webpack --config ./test/webpack.config.js"
+    "webpack": "webpack --config ./test/webpack/webpack.config.js"
   },
   "author": "Rafael @Milewski",
   "license": "MIT",
@@ -28,6 +28,7 @@
     "file-loader": "^0.11.1",
     "file-type": "^4.1.0",
     "fs-extra": "^2.1.2",
+    "loader-runner": "^2.3.0",
     "mocha": "^3.2.0",
     "raw-loader": "^0.5.1",
     "typescript": "^2.2.2",

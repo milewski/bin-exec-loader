@@ -1,8 +1,9 @@
-import { getOptions } from "loader-utils";
+import { getOptions, interpolateName } from "loader-utils";
 import { toSpawnArgs } from "options-to-spawn-args";
 import { toDashed } from "./helpers";
 import { OptionsInterface } from "./interfaces/OptionsInterface";
 import { execBuffer } from "./exec";
+import * as path from "path";
 
 export const raw = true;
 export default function (content) {
@@ -11,11 +12,16 @@ export default function (content) {
         options: OptionsInterface = Object.assign({
             enable: true,
             quote: false,
+            export: false,
+            emitFile: true,
+            name: '[name].[ext]',
             prefix: 'standard',
-            extension: null,
             equals: false,
+            cache: true,
             args: {}
         })
+
+    if (this.cacheable) this.cacheable(options.cache);
 
     for (let key in config.args) {
         options.args[toDashed(key)] = config.args[key]
@@ -31,15 +37,30 @@ export default function (content) {
 
     const callback = this.async();
 
+    const file = path.parse(this.resource)
+    const url = interpolateName(this, options.name, { content })
+
+    /**
+     * Replace original name with desired path/filename+extension
+     */
+    this.resource = path.normalize(`${file.dir}/${url}`);
+
     execBuffer({
         input: content,
         binary: options.binary,
-        resource: this.resource,
-        extension: options.extension,
+        file: url,
         args: toSpawnArgs(options.args, { ...options }),
-    }).then(({ data, extension }) => {
-        this.resource = this.resource.replace(/\.[^.]+$/, extension)
+    }).then(data => {
+
+        if (options.emitFile)
+            this.emitFile(url, data)
+
+        if (options.export) {
+            return callback(null, `module.exports = ${ data }`)
+        }
+
         callback(null, data)
+
     }).catch(error => callback(error));
 
 }

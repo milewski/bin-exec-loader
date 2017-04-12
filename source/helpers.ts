@@ -3,7 +3,7 @@ import * as util from "util";
  * Convert CamelCasedString to camel-cased-string
  */
 export function toDashed(string: string): string {
-    return string.replace(/([A-Z])/, result => `-${result[0].toLowerCase()}`)
+    return string.replace(/([A-Z])/g, result => `-${result[0].toLowerCase()}`)
 }
 
 /**
