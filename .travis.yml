@@ -12,6 +12,7 @@ node_js:
 - 'node'
 
 sudo: required
+dist: xenial
 
 before_install:
   - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then sudo apt-get install -qq imagemagick; fi"
