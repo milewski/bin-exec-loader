@@ -74,7 +74,6 @@ describe('Loader', () => {
 
             expect(error.cmd).to.be('invalid-binary --test 123')
             expect(error.code).to.be('ENOENT')
-            expect(error.spawnargs).to.eql(['--test', 123])
 
             done()
 
@@ -255,7 +254,7 @@ describe('Loader', () => {
             args: { shouldBeCamelCased: true, normal: true }
         }, ({ error }) => {
 
-            expect(error.spawnargs).to.eql(['--should-be-camel-cased', '--normal'])
+            expect(error.cmd).to.match(/i-bin --should-be-camel-cased --normal/)
 
             done()
 

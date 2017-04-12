@@ -4,22 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "handbrake": "handbrake --help",
     "test": "mocha test/test.js --no-timeouts",
-    "webpack:node": "node --inspect --debug-brk ./node_modules/webpack/bin/webpack",
+    "pretest": "npm run build",
+    "build": "tsc",
     "webpack": "webpack --config ./test/webpack/webpack.config.js"
   },
   "author": "Rafael @Milewski",
   "license": "MIT",
   "dependencies": {
-    "exec-buffer": "^3.1.0",
     "execa": "^0.6.3",
-    "file-type": "^4.1.0",
-    "handbrake-bin": "^1.0.8",
     "loader-utils": "^1.1.0",
     "options-to-spawn-args": "^2.1.0",
-    "temp-write": "^3.2.0",
-    "tempy": "^0.1.0"
+    "temp-write": "^3.2.0"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.40",
@@ -30,9 +26,8 @@
     "fs-extra": "^2.1.2",
     "loader-runner": "^2.3.0",
     "mocha": "^3.2.0",
+    "pngquant-bin": "^3.1.1",
     "raw-loader": "^0.5.1",
-    "typescript": "^2.2.2",
-    "url-loader": "^0.5.8",
-    "webpack": "^2.3.3"
+    "typescript": "^2.2.2"
   }
 }
