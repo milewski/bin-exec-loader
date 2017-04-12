@@ -19,10 +19,10 @@ In your `webpack.config.js` add the bin-exec-loader
 
 Let's say you would like to use imageagick [`convert`](https://www.imagemagick.org/script/convert.php) to scale all your images down by 50%
 
-In plan bash you would do like this:
+In plain bash you would do like this:
 
 ```bash
-$ convert input/image.png -resize 50% output/image.jpg
+$ convert input/image.png -resize 50% output/image.png
 ```
 
 Then if you wish to execute the same command but as a webpack-loader you would do:
