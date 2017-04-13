@@ -29,7 +29,7 @@
   },
   "scripts": {
     "prepublish": "npm run build && npm test",
-    "test": "mocha test/test.js",
+    "test": "mocha test/test.js --no-timeouts",
     "pretest": "npm run build",
     "postbuild": "cross-os make-execultable",
     "build": "tsc",
