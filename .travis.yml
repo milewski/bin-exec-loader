@@ -16,4 +16,4 @@ dist: xenial
 
 before_install:
   - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then sudo apt-get install -qq imagemagick; fi"
-  - "if [ ${TRAVIS_OS_NAME:-'osx'} = 'linux' ]; then sudo port install ImageMagick; fi"
+  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'osx' ]; then sudo brew install imagemagick; fi"
