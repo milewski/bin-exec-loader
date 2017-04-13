@@ -6,8 +6,13 @@
   "scripts": {
     "test": "mocha test/test.js --no-timeouts",
     "pretest": "npm run build",
+    "postbuild": "cross-os make-execultable",
     "build": "tsc",
-    "webpack": "webpack --config ./test/webpack/webpack.config.js"
+    "webpack": "webpack --config ./test/webpack/webpack.config.js",
+    "make-execultable": {
+      "linux": "chmod +x test/sample-files/copy-cat.js",
+      "darwin": "chmod +x test/sample-files/copy-cat.js"
+    }
   },
   "author": "Rafael @Milewski",
   "license": "MIT",
@@ -20,6 +25,7 @@
   "devDependencies": {
     "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.12",
+    "cross-os": "^1.0.0",
     "expect.js": "^0.3.1",
     "file-loader": "^0.11.1",
     "file-type": "^4.1.0",
