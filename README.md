@@ -99,14 +99,37 @@ console.log(file);
 **/
 ```
 
+You can also chain it with pretty much any loader, you just need to understand the use of the option export, for example in the example above you could also archive the same result chaining it with json-loader as
+
+```js
+{
+    test: /\.(png|jpg|gif)$/,
+    use: [
+        { loader: 'json-loader' },
+        {
+            loader: 'bin-exec-loader',
+            options: {
+                binary: 'curl',
+                //export: true, disable export so the raw content is passed to the next loader
+                args: {
+                    user: 'api:YOUR_API_KEY',
+                    dataBinary: '@[input]',
+                    $0: 'https://api.tinify.com/shrink'
+                }
+            }
+        }
+    ]
+}
+```
+
 ## Options
 
 <table>
   <tr>
     <th align="left">Options</th>
-    <th align="left">type</th>
-    <th align="left">default</th>
-    <th align="left">description</th>
+    <th align="left">Type</th>
+    <th align="left">Default</th>
+    <th align="left">Description</th>
   </tr>
   <tr>
     <td>binary</td>
@@ -118,19 +141,19 @@ console.log(file);
     <td>export</td>
     <td>boolean</td>
     <td>false</td>
-    <td>Determines if the output should be read from the `[output]` placeholder or it should be exported as an string</td>
+    <td>Determines if the output should be read from the <code>[output]</code> placeholder or it should be exported as a <code>module.exports = data</code></td>
   </tr>
   <tr>
     <td>quote</td>
     <td>boolean</td>
     <td>false</td>
-    <td>Whether the params should be wrapped with quotes `--param "one"`</td>
+    <td>Whether the params should be wrapped with quotes <code>--param "one"</code></td>
   </tr>
   <tr>
     <td>equals</td>
     <td>boolean</td>
     <td>false</td>
-    <td>Whether the params should be assigned with a equal sign `--param=one`</td>
+    <td>Whether the params should be assigned with a equal sign <code>--param=one</code></td>
   </tr>
   <tr>
     <td>emitFile</td>
@@ -142,19 +165,19 @@ console.log(file);
     <td>name</td>
     <td>string</td>
     <td>[name].[ext]</td>
-    <td>The output file name, you can use `[name]`,`[hash]`,`[ext]`</td>
+    <td>The output file name, you can use <code>[name]</code>,<code>[hash]</code>,<code>[ext]</code></td>
   </tr>
   <tr>
     <td>prefix</td>
-    <td style="white-space: nowrap">string | function</td>
+    <td>string|function</td>
     <td>standard</td>
-    <td>The prefix used to on the args key. `standard` will act like most CLI does, single letter gets `-` more than one gets `--` however if the CLI you are using has a different pattern you can set here</td>
+    <td>The prefix used to on the args key. <code>standard</code> will act like most CLI does, single letter gets <code>-</code> more than one gets <code>--</code></td>
   </tr>
   <tr>
     <td>enable</td>
     <td>boolean</td>
     <td>true</td>
-    <td>Enable/Disable this loader, good to use when you don't want to run it on `process.env.NODE_ENV=== development` for example.</td>
+    <td>Enable/Disable this loader, good to use when you don't want to run it on <code>process.env.NODE_ENV === 'development'</code> for example.</td>
   </tr>
   <tr>
     <td>cache</td>
@@ -166,7 +189,14 @@ console.log(file);
     <td>args</td>
     <td>object</td>
     <td>{}</td>
-    <td>The args you want to invoke your command with.<br>- `$` will be replaced `-`<br>- `$$` will be replaced with `--`<br>- `$0...∞` will be removed. e.g `{ $1: "hello", $2: "world" }` will become `my-cli hello world`<br><br>you also can use `[input]` and `[output]` on the values as placeholders for the the real resource path. e.g `{$0:"[input]"}` will become `open an/absolute/path/file.extension`<br></td>
+    <td>
+    The args you want to invoke your command with.
+    <ul>
+        <li><code>$</code> will be replaced <code>-</code></li>
+        <li><code>$0...N</code> will be removed. e.g <code>{ $2: "hello" }</code> will become <code>my-cli hello</code></li>
+    </ul>
+     You can also use <code>[input]</code> and <code>[output]</code> on the values as placeholders for the the real resource path.
+     e.g <code>{ $0:"[input]" }</code> will become <code>open an/absolute/path/file.extension</code>
   </tr>
 </table>
 
