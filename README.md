@@ -99,7 +99,7 @@ console.log(file);
 **/
 ```
 
-You can also chain it with pretty much any loader, you just need to understand the use of the option export, for example in the example above you could also archive the same result chaining it with json-loader as
+You can also chain it with pretty much any loader, you just need to understand the use of the option export, for example in the example above you could also archive the same result chaining it with `json-loader` :
 
 ```js
 {
@@ -110,7 +110,7 @@ You can also chain it with pretty much any loader, you just need to understand t
             loader: 'bin-exec-loader',
             options: {
                 binary: 'curl',
-                //export: true, disable export so the raw content is passed to the next loader
+                //export: true, disable export so the raw output is passed to the next loader
                 args: {
                     user: 'api:YOUR_API_KEY',
                     dataBinary: '@[input]',

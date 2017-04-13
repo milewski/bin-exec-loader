@@ -14,6 +14,8 @@ export default function (content) {
             quote: false,
             export: false,
             emitFile: true,
+            context: this.context,
+            regExp: null,
             name: '[name].[ext]',
             prefix: 'standard',
             equals: false,
@@ -38,7 +40,7 @@ export default function (content) {
     const callback = this.async();
 
     const file = path.parse(this.resource)
-    const url = interpolateName(this, options.name, { content })
+    const url = interpolateName(this, options.name, { content, context: options.context, regExp: options.regExp })
 
     /**
      * Replace original name with desired path/filename+extension

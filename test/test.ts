@@ -262,4 +262,23 @@ describe('Loader', () => {
 
     });
 
+    it('should accept a function as prefix', done => {
+
+        runner({
+            binary: 'convert',
+            prefix: (item) => '-',
+            name: 'another-test.json',
+            args: { $1: '[input]', resize: '50%', $2: '[output]' }
+        }, ({ error, output }) => {
+
+            if (error) return done(error);
+
+            expect(output).to.eql(fs.readFileSync(path.resolve(__dirname, 'temp/another-test.json')))
+
+            done()
+
+        })
+
+    });
+
 })

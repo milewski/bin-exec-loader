@@ -1,10 +1,35 @@
 {
   "name": "bin-exec-loader",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Execute any binary as a webpack loader",
+  "keywords": [
+    "webpack-loader",
+    "loader",
+    "universal",
+    "universal-loader",
+    "binary",
+    "webpack",
+    "any",
+    "bash",
+    "exec"
+  ],
+  "main": "source/loader.js",
+  "author": "Rafael @Milewski",
+  "license": "MIT",
+  "files": [
+    "source/*.js"
+  ],
+  "homepage": "https://github.com/Milewski/bin-exec-loader",
+  "bugs": {
+    "url": "https://github.com/Milewski/bin-exec-loader/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Milewski/bin-exec-loader.git"
+  },
   "scripts": {
-    "test": "mocha test/test.js --no-timeouts",
+    "prepublish": "npm run build && npm test",
+    "test": "mocha test/test.js",
     "pretest": "npm run build",
     "postbuild": "cross-os make-execultable",
     "build": "tsc",
@@ -14,8 +39,6 @@
       "darwin": "chmod +x test/sample-files/copy-cat.js"
     }
   },
-  "author": "Rafael @Milewski",
-  "license": "MIT",
   "dependencies": {
     "execa": "^0.6.3",
     "loader-utils": "^1.1.0",
@@ -33,7 +56,6 @@
     "loader-runner": "^2.3.0",
     "mocha": "^3.2.0",
     "pngquant-bin": "^3.1.1",
-    "raw-loader": "^0.5.1",
     "typescript": "^2.2.2"
   }
 }
