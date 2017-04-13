@@ -101,34 +101,74 @@ console.log(file);
 
 ## Options
 
-#### binary [string]
-The binary you want to execute, could be a string to some executable available in your PATH or a npm module.
-
-#### export [boolean=false]
-Determines if the output should be read from the `[output]` placeholder or it should be exported as an string
-
-#### quote [boolean=false]
-Whether the params should be wrapped with quotes `--param "one"`
-
-#### equals [boolean=false]
-Whether the params should be assigned with a equal sign `--param=one`
-
-#### emitFile [boolean=true]
-Whether if the output should be emitted
-
-#### name [string='[name].[ext]']
-The output file name, you can use `[name]`,`[hash]`,`[ext]`,`[contenthash]`
-> Note: When you make use of the [output] token on the args object the file extension comes from here. If a explicit extension is omitted it will be used the origin file extension instead.
-
-#### prefix [string=standard]
-The prefix used to on the args key.
-`standard` will act like most CLI does, single letter gets `-` more than one gets `--` however if the CLI you are using has a different pattern you can set here
-
-#### enable [boolean=true]
-Enable/Disable this loader, good to use when you don't want to run it on === production for example
-
-#### cache [boolean=true]
-Tells webpack if the output of this loader should be cached
+<table>
+  <tr>
+    <th align="left">Options</th>
+    <th align="left">type</th>
+    <th align="left">default</th>
+    <th align="left">description</th>
+  </tr>
+  <tr>
+    <td>binary</td>
+    <td>string</td>
+    <td>-</td>
+    <td>The binary you want to execute, could be a string to some executable available in your PATH or a npm module.</td>
+  </tr>
+  <tr>
+    <td>export</td>
+    <td>boolean</td>
+    <td>false</td>
+    <td>Determines if the output should be read from the `[output]` placeholder or it should be exported as an string</td>
+  </tr>
+  <tr>
+    <td>quote</td>
+    <td>boolean</td>
+    <td>false</td>
+    <td>Whether the params should be wrapped with quotes `--param "one"`</td>
+  </tr>
+  <tr>
+    <td>equals</td>
+    <td>boolean</td>
+    <td>false</td>
+    <td>Whether the params should be assigned with a equal sign `--param=one`</td>
+  </tr>
+  <tr>
+    <td>emitFile</td>
+    <td>boolean</td>
+    <td>true</td>
+    <td>Whether if the output should be emitted</td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>string</td>
+    <td>[name].[ext]</td>
+    <td>The output file name, you can use `[name]`,`[hash]`,`[ext]`</td>
+  </tr>
+  <tr>
+    <td>prefix</td>
+    <td style="white-space: nowrap">string | function</td>
+    <td>standard</td>
+    <td>The prefix used to on the args key. `standard` will act like most CLI does, single letter gets `-` more than one gets `--` however if the CLI you are using has a different pattern you can set here</td>
+  </tr>
+  <tr>
+    <td>enable</td>
+    <td>boolean</td>
+    <td>true</td>
+    <td>Enable/Disable this loader, good to use when you don't want to run it on `process.env.NODE_ENV=== development` for example.</td>
+  </tr>
+  <tr>
+    <td>cache</td>
+    <td>boolean</td>
+    <td>true</td>
+    <td>Tell webpack if the output of this loader should be cached.</td>
+  </tr>
+  <tr>
+    <td>args</td>
+    <td>object</td>
+    <td>{}</td>
+    <td>The args you want to invoke your command with.<br>- `$` will be replaced `-`<br>- `$$` will be replaced with `--`<br>- `$0...∞` will be removed. e.g `{ $1: "hello", $2: "world" }` will become `my-cli hello world`<br><br>you also can use `[input]` and `[output]` on the values as placeholders for the the real resource path. e.g `{$0:"[input]"}` will become `open an/absolute/path/file.extension`<br></td>
+  </tr>
+</table>
 
 ## License 
 
