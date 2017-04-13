@@ -32,21 +32,16 @@ module: {
     rules: [
         {
             test: /\.(png|jpg|gif)$/,
-            use: [
-                { loader: 'file-loader', options: { name: '[name].[ext]' } },
-                {
-                    loader: 'bin-exec-loader',
-                    options: {
-                        binary: 'convert',
-                        prefix: '-', // because imageagick uses an uncommon syntax -like-this --instead-of-this
-                        args: {
-                            $1: '[input]', // [input] will be replaced by the current file that is being proceed
-                            resize: '50%',
-                            $2: '[output]' // [output] will be where your output get's temporarily written
-                        }
-                    }
+            loader: 'bin-exec-loader',
+            options: {
+                binary: 'convert',
+                prefix: '-', // because imageagick uses an uncommon syntax -like-this --instead-of-this
+                args: {
+                    $1: '[input]', // [input] will be replaced by the current file that is being proceed
+                    resize: '50%',
+                    $2: '[output]' // [output] will be where your output get's temporarily written
                 }
-            ]
+            }
         }
     ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "bin-exec-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Execute any binary as a webpack loader",
   "keywords": [
     "webpack-loader",
@@ -33,7 +33,6 @@
     "pretest": "npm run build",
     "postbuild": "cross-os make-execultable",
     "build": "tsc",
-    "webpack": "webpack --config ./test/webpack/webpack.config.js",
     "make-execultable": {
       "linux": "chmod +x test/sample-files/copy-cat.js",
       "darwin": "chmod +x test/sample-files/copy-cat.js"
