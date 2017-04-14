@@ -4,6 +4,7 @@
 [![npm version](https://badge.fury.io/js/bin-exec-loader.svg)](https://badge.fury.io/js/bin-exec-loader)
 [![npm downloads](https://img.shields.io/npm/dm/bin-exec-loader.svg)](https://www.npmjs.com/package/bin-exec-loader)
 [![dependencies](https://david-dm.org/Milewski/bin-exec-loader.svg)](https://www.npmjs.com/package/bin-exec-loader)
+[![Greenkeeper badge](https://badges.greenkeeper.io/Milewski/bin-exec-loader.svg)](https://greenkeeper.io/)
 
 ## Install
 
