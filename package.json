@@ -1,6 +1,6 @@
 {
   "name": "bin-exec-loader",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Execute any binary as a webpack loader",
   "keywords": [
     "webpack-loader",

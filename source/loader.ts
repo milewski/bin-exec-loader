@@ -1,4 +1,4 @@
-import { getOptions, interpolateName } from "loader-utils";
+import { getOptions, interpolateName, parseQuery } from "loader-utils";
 import { toSpawnArgs } from "options-to-spawn-args";
 import { toDashed } from "./helpers";
 import { OptionsInterface } from "./interfaces/OptionsInterface";
@@ -9,6 +9,7 @@ export const raw = true;
 export default function (content) {
 
     let config = Object.assign({ args: {} }, getOptions(this) || {}),
+        query = this.resourceQuery ? parseQuery(this.resourceQuery) : {},
         options: OptionsInterface = Object.assign({
             enable: true,
             quote: false,
@@ -50,6 +51,7 @@ export default function (content) {
     execBuffer({
         input: content,
         binary: options.binary,
+        query: query,
         file: url,
         args: toSpawnArgs(options.args, { ...options }),
     }).then(data => {

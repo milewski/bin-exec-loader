@@ -3,6 +3,7 @@ import * as path from "path";
 import * as expect from "expect.js";
 import { runLoaders } from "loader-runner";
 import * as fileType from "file-type";
+import * as queryString from "querystring";
 
 function cleanUp() {
     try {
@@ -12,10 +13,10 @@ function cleanUp() {
     }
 }
 
-function runner(options, callback: Function) {
+function runner(options, callback: Function, query = null) {
     runLoaders({
             readResource: fs.readFile.bind(fs),
-            resource: path.resolve(__dirname, 'sample-files/sample.png'),
+            resource: path.resolve(__dirname, `sample-files/sample.png${query ? `?${queryString.stringify(query)}` : ''}`),
             context: {
                 emitFile: (name, buffer) => {
                     fs.ensureDirSync(path.resolve(__dirname, 'temp'))
@@ -278,6 +279,25 @@ describe('Loader', () => {
             done()
 
         })
+
+    });
+
+    it('should accept a query directly from require', done => {
+
+        runner({
+            binary: 'convert',
+            prefix: '-',
+            args: { $1: '[input]', resize: '[resize]', $2: '[output]' }
+        }, ({ error, input, output }) => {
+
+            if (error) return done(error);
+
+            expect(fileType(output).ext).to.be('png')
+            expect(output.byteLength).to.be.above(input.byteLength)
+
+            done()
+
+        }, { resize: '200%' })
 
     });
 

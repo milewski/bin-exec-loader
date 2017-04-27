@@ -18,7 +18,7 @@ In your `webpack.config.js` add the bin-exec-loader
 
 #### Example
 
-Let's say you would like to use imageagick [`convert`](https://www.imagemagick.org/script/convert.php) to scale all your images down by 50%
+Let's say you would like to use imagemagick [`convert`](https://www.imagemagick.org/script/convert.php) to scale all your images down by 50%
 
 In plain bash you would do like this:
 
@@ -33,18 +33,46 @@ module: {
     rules: [
         {
             test: /\.(png|jpg|gif)$/,
-            loader: 'bin-exec-loader',
-            options: {
-                binary: 'convert',
-                prefix: '-', // because imageagick uses an uncommon syntax -like-this --instead-of-this
-                args: {
-                    $1: '[input]', // [input] will be replaced by the current file that is being proceed
-                    resize: '50%',
-                    $2: '[output]' // [output] will be where your output get's temporarily written
+            use: [
+                { loader: 'file-loader', options: { name: '[name].[ext]' } },
+                {
+                    loader: 'bin-exec-loader',
+                    options: {
+                        binary: 'convert', // imagemagick converter binary
+                        prefix: '-', // because imagemagick uses an uncommon syntax -like-this --instead-of-this
+                        export: false, // because i want to let file-loader handle the output
+                        emitFile: false, // otherwise we will end up with the original input file also saved on disk
+                        args: {
+                            $1: '[input]', // [input] will be replaced by the current file that is being proceed
+                            resize: '50%',
+                            $2: '[output]' // [output] will be where your output get's temporarily written
+                        }
+                    }
                 }
-            }
+            ]
         }
     ]
+}
+```
+
+You you can also set dynamic args like this:
+
+```js
+const smallImage = require('./test/sample-files/sample.png?resize=50%25') // 50%25 is the encoded version of 50%
+```
+```js
+{
+    test: /\.(png|jpg|gif)$/,
+    loader: 'bin-exec-loader',
+    options: {
+        binary: 'convert',
+        prefix: '-', 
+        args: {
+            $1: '[input]',
+            resize: '[resize]', // now all the parameters you send from the queryString will be available here as [param]
+            $2: '[output]'
+        }
+    }
 }
 ```
 
@@ -198,4 +226,4 @@ You can also chain it with pretty much any loader, you just need to understand t
 
 ## License 
 
-[MIT](LICENSE)
+[MIT](LICENSE) © [Rafael Milewski](https://github.com/milewski)

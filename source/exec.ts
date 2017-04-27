@@ -5,7 +5,7 @@ import * as exec from "execa";
 import * as tempWrite from "temp-write";
 import * as path from "path";
 
-export function execBuffer({ input, binary, file, args }) {
+export function execBuffer({ input, binary, query, file, args }) {
 
     if (!Buffer.isBuffer(input)) {
         return Promise.reject(new Error('Input is must to be a buffer'));
@@ -18,10 +18,10 @@ export function execBuffer({ input, binary, file, args }) {
         return Promise.reject(new Error('Binary should be a string or an absolute path to an executable file.'));
     }
 
-    const params = {
+    const params = Object.assign({
         input: tempWrite.sync(input, file.base),
         output: tempWrite.sync(null, file)
-    }
+    }, query)
 
     let options = tokenizer(args, params).filter(stripeOutDollars).map(parseDollars);
 
@@ -36,8 +36,6 @@ export function execBuffer({ input, binary, file, args }) {
                     .filter(option => option.includes(path.parse(params.output).dir))
                     .pop()
 
-                // if (!output)
-                //     throw new Error('Invalid Output: ' + JSON.stringify(options))
                 if (output) {
 
                     fs.readFile(output, (error, data) => {
