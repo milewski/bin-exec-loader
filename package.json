@@ -1,6 +1,6 @@
 {
   "name": "bin-exec-loader",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Execute any binary as a webpack loader",
   "keywords": [
     "webpack-loader",
@@ -46,7 +46,9 @@
     "execa": "^0.6.3",
     "loader-utils": "^1.1.0",
     "options-to-spawn-args": "^2.1.0",
-    "temp-write": "^3.2.0"
+    "temp-write": "^3.2.0",
+    "tempy": "^0.1.0",
+    "fs-extra": "^2.1.2"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.40",
@@ -55,7 +57,6 @@
     "expect.js": "^0.3.1",
     "file-loader": "^0.11.1",
     "file-type": "^4.1.0",
-    "fs-extra": "^2.1.2",
     "loader-runner": "^2.3.0",
     "mocha": "^3.2.0",
     "pngquant-bin": "^3.1.1",

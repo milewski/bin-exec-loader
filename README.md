@@ -16,7 +16,7 @@ $ npm install bin-exec-loader --save
 
 In your `webpack.config.js` add the bin-exec-loader
 
-#### Example
+#### Examples
 
 Let's say you would like to use imagemagick [`convert`](https://www.imagemagick.org/script/convert.php) to scale all your images down by 50%
 
@@ -74,6 +74,32 @@ const smallImage = require('./test/sample-files/sample.png?resize=50%25') // 50%
         }
     }
 }
+```
+
+if your binary produces multiple output you can grab those like this:
+> convert each page of a pdf to separated jpg and retrieve an array of paths as result
+
+```js
+{
+    test: /\.pdf$/,
+    loader: 'bin-exec-loader',
+    options: {
+        binary: 'convert',
+        prefix: '-',
+        multiple: true, // let the loader knows there will be more than one output
+        emitFile: /\d\.jpg$/ // emit only the files ending with this pattern. e.g file-01.jpg
+        name: '[name].jpg'
+        args: {
+            $1: '[input]',
+            resize: '[resize]', // now all the parameters you send from the queryString will be available here as [param]
+            $2: '[output]'
+        }
+    }
+}
+```
+```js
+console.log(require('./some/file.pdf'))
+// [ 'file-01.jpg', file-02.jpg', 'file-03.jpg', 'file-04.jpg' ]
 ```
 
 How about a loader over http? optimizing your image using [tinypng](https://tinypng.com/developers/reference) api?
@@ -181,7 +207,7 @@ You can also chain it with pretty much any loader, you just need to understand t
   </tr>
   <tr>
     <td>emitFile</td>
-    <td>boolean</td>
+    <td>boolean|regExp</td>
     <td>true</td>
     <td>Whether if the output should be emitted</td>
   </tr>
@@ -210,20 +236,29 @@ You can also chain it with pretty much any loader, you just need to understand t
     <td>Tell webpack if the output of this loader should be cached.</td>
   </tr>
   <tr>
-    <td>args</td>
-    <td>object</td>
-    <td>{}</td>
+    <td>multiple</td>
+    <td>boolean</td>
+    <td>false</td>
     <td>
-    The args you want to invoke your command with.
-    <ul>
-        <li><code>$</code> will be replaced <code>-</code></li>
-        <li><code>$0...N</code> will be removed. e.g <code>{ $2: "hello" }</code> will become <code>my-cli hello</code></li>
-    </ul>
-     You can also use <code>[input]</code> and <code>[output]</code> on the values as placeholders for the the real resource path.
-     e.g <code>{ $0:"[input]" }</code> will become <code>open an/absolute/path/file.extension</code>
+    Determine if the binary will produce multiple outputs. If <code>true</code> the result will always be an array of path of the resulting files. you can control what gets emitted with using <code>emitFile: regExp</code>
+    </td>
   </tr>
+  <tr>
+      <td>args</td>
+      <td>object</td>
+      <td>{}</td>
+      <td>
+      The args you want to invoke your command with.
+      <ul>
+          <li><code>$</code> will be replaced <code>-</code></li>
+          <li><code>$0...N</code> will be removed. e.g <code>{ $2: "hello" }</code> will become <code>my-cli hello</code></li>
+      </ul>
+       You can also use <code>[input]</code> and <code>[output]</code> on the values as placeholders for the the real resource path.
+       e.g <code>{ $0:"[input]" }</code> will become <code>open an/absolute/path/file.extension</code>
+      </td>
+    </tr>
 </table>
 
-## License 
+## License
 
-[MIT](LICENSE) © [Rafael Milewski](https://github.com/milewski)
+[MIT](LICENSE) © [Rafael Milewski](https://rafael-milewski.com?github=readme)

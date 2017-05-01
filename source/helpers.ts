@@ -1,4 +1,8 @@
 import * as util from "util";
+import * as tempy from 'tempy';
+import * as path from 'path';
+import * as fs from 'fs-extra';
+
 /**
  * Convert CamelCasedString to camel-cased-string
  */
@@ -70,4 +74,13 @@ export function tokenizer(args: string | string[], replacements, identifier = '[
 
     })
 
+}
+
+/**
+ * Ensure temporary directory exists (deep nested)
+ */
+export function ensureDir(file: string): string {
+    const tempDirectory = path.join(tempy.directory(), path.dirname(file))
+    fs.ensureDirSync(tempDirectory)
+    return path.join(tempDirectory, path.basename(file))
 }

@@ -6,7 +6,8 @@ export interface OptionsInterface {
     context?: string
     regExp?: string
     name?: string
-    emitFile?: boolean
+    emitFile?: boolean | RegExp,
+    multiple: boolean,
     args: {},
     optimize?: boolean
     cache?: boolean

@@ -13,13 +13,13 @@ function cleanUp() {
     }
 }
 
-function runner(options, callback: Function, query = null) {
+function runner(options, callback: Function, { file = 'sample.png', query = null } = {}) {
     runLoaders({
             readResource: fs.readFile.bind(fs),
-            resource: path.resolve(__dirname, `sample-files/sample.png${query ? `?${queryString.stringify(query)}` : ''}`),
+            resource: path.resolve(__dirname, `sample-files/${file}${query ? `?${queryString.stringify(query)}` : ''}`),
             context: {
                 emitFile: (name, buffer) => {
-                    fs.ensureDirSync(path.resolve(__dirname, 'temp'))
+                    fs.ensureDirSync(path.resolve(__dirname, 'temp', path.dirname(name)))
                     fs.writeFileSync(path.resolve(__dirname, 'temp', name), buffer, { encoding: 'utf8' })
                 },
             },
@@ -205,6 +205,29 @@ describe('Loader', () => {
 
     });
 
+    it('should accept a RegExp as emitFile', done => {
+
+        runner({
+            binary: 'convert',
+            prefix: '-',
+            emitFile: /\.json$/,
+            name: 'test.json',
+            export: false,
+            args: { $1: '[input]', resize: '50%', $2: '[output]' }
+        }, ({ error, output }) => {
+
+            if (error) return done(error);
+
+            let jsonFile = fs.readFileSync(path.resolve(__dirname, 'temp/test.json')).toString()
+
+            expect(JSON.parse(output)).to.eql(JSON.parse(jsonFile))
+
+            done()
+
+        })
+
+    });
+
     it('should not emit file if set to do not do so', done => {
 
         runner({
@@ -297,7 +320,49 @@ describe('Loader', () => {
 
             done()
 
-        }, { resize: '200%' })
+        }, { query: { resize: '200%' } })
+
+    });
+
+    it('should accept a regular expression as emitFile for multiple outputs', done => {
+
+        runner({
+            binary: 'convert',
+            prefix: '-',
+            emitFile: /\d\.jpg$/,
+            multiple: true,
+            name: 'output.jpg',
+            args: { $1: '[input]', $2: '[output]' }
+        }, ({ error, output }) => {
+
+            if (error) return done(error);
+
+            expect(output.length).to.be(178)
+
+            done()
+
+        }, { file: 'sample.pdf' })
+
+    });
+
+    it('should works correctly with a very long output path', done => {
+
+        runner({
+            binary: 'convert',
+            prefix: '-',
+            // emitFile: /\.jpg$/,
+            multiple: true,
+            name: 'very/deep/directory/output.jpg',
+            args: { $1: '[input]', $2: '[output]' }
+        }, ({ error, output }) => {
+
+            if (error) return done(error);
+
+            expect(output.length).to.be(258)
+
+            done()
+
+        }, { file: 'sample.pdf' })
 
     });
 

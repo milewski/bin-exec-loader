@@ -21,6 +21,7 @@ export default function (content) {
             prefix: 'standard',
             equals: false,
             cache: true,
+            multiple: false,
             args: {}
         })
 
@@ -46,20 +47,37 @@ export default function (content) {
     /**
      * Replace original name with desired path/filename+extension
      */
-    this.resource = path.normalize(`${file.dir}/${url}`);
+    this.resource = path.join(file.dir, url);
 
     execBuffer({
         input: content,
         binary: options.binary,
         query: query,
         file: url,
+        multiple: options.multiple,
+        emitFile: options.emitFile,
         args: toSpawnArgs(options.args, { ...options }),
     }).then(data => {
 
-        if (options.emitFile)
-            this.emitFile(url, data)
+        /**
+         * If it's an array means user has set emitFile as a regExg
+         * so it will export all the matched files into an array of paths
+         */
+        if (data instanceof Array) {
 
-        if (options.export) {
+            const paths = data.map(({ name, file }) => {
+                return this.emitFile(name, file) || '__PATH__' + name
+            })
+
+            data = JSON.stringify(paths).replace(/"__PATH__/g, '__webpack_public_path__ +"');
+
+        } else if (
+            (options.emitFile instanceof RegExp && options.emitFile.test(url)) || options.emitFile === true
+        ) {
+            this.emitFile(url, data)
+        }
+
+        if (options.export || options.multiple) {
             return callback(null, `module.exports = ${ data }`)
         }
 

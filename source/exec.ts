@@ -1,11 +1,11 @@
-import { parseDollars, stripeOutDollars, tokenizer } from "./helpers";
+import { parseDollars, stripeOutDollars, tokenizer, ensureDir } from "./helpers";
 import { interpolateName } from "loader-utils";
-import * as fs from "fs";
+import * as fs from "fs-extra";
 import * as exec from "execa";
 import * as tempWrite from "temp-write";
 import * as path from "path";
 
-export function execBuffer({ input, binary, query, file, args }) {
+export function execBuffer({ input, binary, query, file, multiple, emitFile, args }) {
 
     if (!Buffer.isBuffer(input)) {
         return Promise.reject(new Error('Input is must to be a buffer'));
@@ -19,11 +19,11 @@ export function execBuffer({ input, binary, query, file, args }) {
     }
 
     const params = Object.assign({
-        input: tempWrite.sync(input, file.base),
-        output: tempWrite.sync(null, file)
+        input: tempWrite.sync(input, file),
+        output: multiple ? ensureDir(file) : tempWrite.sync(null, file)
     }, query)
 
-    let options = tokenizer(args, params).filter(stripeOutDollars).map(parseDollars);
+    const options = tokenizer(args, params).filter(stripeOutDollars).map(parseDollars);
 
     return exec(binary, options)
         .then(({ stdout }) => {
@@ -33,19 +33,37 @@ export function execBuffer({ input, binary, query, file, args }) {
                  * Get the final output
                  */
                 const output = options
-                    .filter(option => option.includes(path.parse(params.output).dir))
+                    .filter(option => option.includes(path.dirname(params.output)))
                     .pop()
+
+                if (multiple) {
+
+                    const outDir = path.dirname(output)
+                    const files = fs.readdirSync(outDir).map(item => {
+
+                        if (emitFile instanceof RegExp && !emitFile.test(item) || !emitFile) return false
+
+                        return {
+                            name: path.normalize(path.dirname(file) + path.sep + item),
+                            file: fs.readFileSync(path.join(outDir, path.basename(item)))
+                        }
+
+                    }).filter(Boolean)
+
+                    return resolve(files)
+
+                }
 
                 if (output) {
 
-                    fs.readFile(output, (error, data) => {
+                    return fs.readFile(output, (error, data) => {
                         if (error) throw error
                         resolve(data)
                     })
 
-                } else {
-                    resolve(stdout)
                 }
+
+                return resolve(stdout)
 
             })
 
