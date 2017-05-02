@@ -15,5 +15,5 @@ sudo: required
 dist: xenial
 
 before_install:
-  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then sudo apt-get install -qq imagemagick; fi"
-  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'osx' ]; then brew install imagemagick; fi"
+  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then sudo apt-get install -qq imagemagick ghostscript; fi"
+  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'osx' ]; then brew install imagemagick ghostscript; fi"
