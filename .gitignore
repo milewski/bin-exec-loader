@@ -2,3 +2,6 @@ node_modules
 *.js
 *.map
 .idea
+!examples/**/*.js
+examples/**/output
+examples/**/output/**

@@ -21,7 +21,8 @@
   },
   "license": "MIT",
   "files": [
-    "source/*.js"
+    "source/*.js",
+    "examples/**/*.js"
   ],
   "homepage": "https://github.com/milewski/bin-exec-loader",
   "bugs": {
