@@ -366,4 +366,31 @@ describe('Loader', () => {
 
     });
 
+    it('should accept special tokens for image outputs', done => {
+
+        runner({
+            binary: 'convert',
+            prefix: '-',
+            emitFile: /\.jpg$/,
+            multiple: true,
+            name: '[width]-output-[width]x[height]x[height].jpg',
+            args: { $1: '[input]', $2: '[output]' }
+        }, ({ error }) => {
+
+            if (error) return done(error);
+
+            const files = fs.readdirSync(path.resolve(__dirname, 'temp'));
+
+            files.forEach(file =>{
+                expect(file).to.match(/960-output-960x560x560-\d.jpg$/)
+            })
+
+            expect(files).to.have.length(4)
+
+            done()
+
+        }, { file: 'sample.pdf' })
+
+    });
+
 })

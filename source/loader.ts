@@ -4,6 +4,7 @@ import { toDashed } from "./helpers";
 import { OptionsInterface } from "./interfaces/OptionsInterface";
 import { execBuffer } from "./exec";
 import * as path from "path";
+import * as calipers from 'calipers';
 
 export const raw = true;
 export default function (content) {
@@ -57,6 +58,73 @@ export default function (content) {
         multiple: options.multiple,
         emitFile: options.emitFile,
         args: toSpawnArgs(options.args, { ...options }),
+    }).then(data => {
+
+        if (data instanceof Array) {
+
+            const instance = calipers('jpeg', 'png', 'gif', 'svg', 'bmp')
+            const cache = {}
+            const tokens = {
+                width: resource => instance.measure(resource).then(({ pages }) => {
+
+                    let { width, height } = pages[0];
+
+                    cache[resource].width = width
+                    cache[resource].height = height
+
+                    return width
+
+                }),
+                height: resource => instance.measure(resource).then(({ pages }) => {
+
+                    let { width, height } = pages[0];
+
+                    cache[resource].width = width
+                    cache[resource].height = height
+
+                    return height
+
+                }),
+            }
+
+            const replacer = (name, key, path, file) => {
+
+                if (cache[path][key])
+                    return name.replace(new RegExp(`\\[${key}]`, 'g'), cache[path][key])
+
+                return tokens[key](path).then(() => replacer(name, key, path, file))
+
+            }
+
+            return new Promise(resolve => {
+
+                const promises = data.map(({ name, file, path }) => {
+
+                    cache[path] = {}
+
+                    let promise = Promise.resolve(name);
+
+                    for (let key in tokens) {
+                        promise = promise.then(entry => replacer(entry, key, path, file))
+                    }
+
+                    return promise
+
+                })
+
+                Promise.all(promises).then(resolution => {
+                    resolve(data.map(({ path, file }, index) => {
+                        return { path, name: resolution[index], file }
+                    }))
+                })
+
+            })
+
+
+        }
+
+        return data;
+
     }).then(data => {
 
         /**

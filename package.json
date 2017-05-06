@@ -1,6 +1,6 @@
 {
   "name": "bin-exec-loader",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Execute any binary as a webpack loader",
   "keywords": [
     "webpack-loader",
@@ -44,12 +44,18 @@
     }
   },
   "dependencies": {
+    "calipers": "^2.0.0",
+    "calipers-bmp": "^2.0.0",
+    "calipers-gif": "^2.0.0",
+    "calipers-jpeg": "^2.0.0",
+    "calipers-png": "^2.0.0",
+    "calipers-svg": "^2.0.0",
     "execa": "^0.6.3",
+    "fs-extra": "^2.1.2",
     "loader-utils": "^1.1.0",
     "options-to-spawn-args": "^2.1.0",
     "temp-write": "^3.2.0",
-    "tempy": "^0.1.0",
-    "fs-extra": "^2.1.2"
+    "tempy": "^0.1.0"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.40",

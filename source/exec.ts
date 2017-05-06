@@ -43,9 +43,12 @@ export function execBuffer({ input, binary, query, file, multiple, emitFile, arg
 
                         if (emitFile instanceof RegExp && !emitFile.test(item) || !emitFile) return false
 
+                        const outPath = path.join(outDir, path.basename(item));
+
                         return {
                             name: path.normalize(path.dirname(file) + path.sep + item),
-                            file: fs.readFileSync(path.join(outDir, path.basename(item)))
+                            file: fs.readFileSync(outPath),
+                            path: outPath
                         }
 
                     }).filter(Boolean)

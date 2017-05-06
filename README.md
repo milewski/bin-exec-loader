@@ -214,7 +214,7 @@ You can also chain it with pretty much any loader, you just need to understand t
     <td>name</td>
     <td>string</td>
     <td>[name].[ext]</td>
-    <td>The output file name, you can use <code>[name]</code>,<code>[hash]</code>,<code>[ext]</code></td>
+    <td>The output file name, you can use <code>[name]</code>,<code>[hash]</code>,<code>[ext]</code> and for <b>images</b> only: <code>[width]</code>, <code>[height]</code></td>
   </tr>
   <tr>
     <td>prefix</td>
