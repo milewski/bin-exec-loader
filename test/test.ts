@@ -381,7 +381,7 @@ describe('Loader', () => {
 
             const files = fs.readdirSync(path.resolve(__dirname, 'temp'));
 
-            files.forEach(file =>{
+            files.forEach(file => {
                 expect(file).to.match(/960-output-960x560x560-\d.jpg$/)
             })
 
@@ -390,6 +390,24 @@ describe('Loader', () => {
             done()
 
         }, { file: 'sample.pdf' })
+
+    });
+
+    it('should accept default values for args', done => {
+
+        runner({
+            binary: 'convert',
+            prefix: '-',
+            emitFile: /\.jpg$/,
+            name: 'output.jpg',
+            args: { alpha: '[beta=test]', resize: '[gama=50%]', }
+        }, ({ error }) => {
+
+            expect(error.cmd).to.match(/convert -alpha test -resize 50%$/)
+
+            done()
+
+        }, { query: {} })
 
     });
 

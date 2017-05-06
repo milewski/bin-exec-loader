@@ -70,6 +70,11 @@ export function tokenizer(args: string | string[], replacements, identifier = '[
 
         })
 
+        const optional = /\[(.*\b)(?:=(.*))]/.exec(source);
+
+        if (optional)
+            source = replacements[optional[1]] || optional[2]
+
         return source;
 
     })

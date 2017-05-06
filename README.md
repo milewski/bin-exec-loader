@@ -70,6 +70,7 @@ const smallImage = require('./test/sample-files/sample.png?resize=50%25') // 50%
         args: {
             $1: '[input]',
             resize: '[resize]', // now all the parameters you send from the queryString will be available here as [param]
+            //resize: '[resize=50%]', // optionally you can set a default value
             $2: '[output]'
         }
     }
