@@ -51,7 +51,7 @@
     "calipers-png": "^2.0.0",
     "calipers-svg": "^2.0.0",
     "execa": "^0.6.3",
-    "fs-extra": "^2.1.2",
+    "fs-extra": "^3.0.1",
     "loader-utils": "^1.1.0",
     "options-to-spawn-args": "^2.1.0",
     "temp-write": "^3.2.0",
