@@ -6,6 +6,14 @@
 [![dependencies](https://david-dm.org/milewski/bin-exec-loader.svg)](https://www.npmjs.com/package/bin-exec-loader)
 [![Greenkeeper badge](https://badges.greenkeeper.io/milewski/bin-exec-loader.svg)](https://greenkeeper.io/)
 
+Pipe **any file** through **any binary** with webpack.
+
+##### Usage Examples
+
+- You could transform any `/\.wav$/` to `.mp3` using [ffmpeg](https://ffmpeg.org/)
+- You could transform any `/\.pdf$/` to single **JPGs** [ImageMagick](https://www.imagemagick.org/script/convert.php)
+- This list could go on indefinitely...
+
 ## Install
 
 ```bash
@@ -55,7 +63,7 @@ module: {
 }
 ```
 
-You you can also set dynamic args like this:
+You can also set dynamic args like this:
 
 ```js
 const smallImage = require('./test/sample-files/sample.png?resize=50%25') // 50%25 is the encoded version of 50%
@@ -124,7 +132,7 @@ $ curl --user api:YOUR_API_KEY --data-binary @unoptimized.png https://api.tinify
 }
 ```
 
-Then in some of if the files in your bundle..
+Then in some file in your bundle..
 
 ```js
 const file = require('some-file.png')
@@ -149,7 +157,7 @@ console.log(file);
 **/
 ```
 
-You can also chain it with pretty much any loader, you just need to understand the use of the option export, for example in the example above you could also archive the same result chaining it with `json-loader` :
+You can also chain it with pretty much with any loader, you just need to understand the use of the option export, e.g: in the example above you could also archive the same result chaining it with `json-loader` :
 
 ```js
 {
