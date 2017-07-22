@@ -1,8 +1,8 @@
-import * as fs from "fs-extra";
-import * as path from "path";
 import * as expect from "expect.js";
-import { runLoaders } from "loader-runner";
 import * as fileType from "file-type";
+import * as fs from "fs-extra";
+import { runLoaders } from "loader-runner";
+import * as path from "path";
 import * as queryString from "querystring";
 
 function cleanUp() {
@@ -29,7 +29,7 @@ function runner(options, callback: Function, { file = 'sample.png', query = null
         },
         (error, { resourceBuffer, result }) => {
             if (!error) expect(result).to.have.length(1)
-            callback({ error, input: resourceBuffer, output: result ? result[0] : null })
+            callback({ error, input: resourceBuffer, output: result ? result[ 0 ] : null })
         }
     )
 }
@@ -228,7 +228,7 @@ describe('Loader', () => {
 
     });
 
-    it('should not emit file if set to do not do so', done => {
+    it('should not emit file if set to not do so', done => {
 
         runner({
             binary: 'convert',
@@ -350,7 +350,6 @@ describe('Loader', () => {
         runner({
             binary: 'convert',
             prefix: '-',
-            // emitFile: /\.jpg$/,
             multiple: true,
             name: 'very/deep/directory/output.jpg',
             args: { $1: '[input]', $2: '[output]' }
@@ -358,7 +357,7 @@ describe('Loader', () => {
 
             if (error) return done(error);
 
-            expect(output.length).to.be(258)
+            expect(output).to.match(/very.*deep.*directory.*output-\d\.jpg/)
 
             done()
 

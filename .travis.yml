@@ -1,19 +1,38 @@
 language: node_js
 
+dist: xenial
+sudo: required
+
 os:
   - "linux"
   - "osx"
 
-node_js:
-- '4'
-- '5'
-- '6'
-- '7'
-- 'node'
+cache:
+  directories:
+    - node_modules
 
-sudo: required
-dist: xenial
+notifications:
+  email: false
+
+node_js:
+  - 'node'
+  - '7'
+  - '6'
+  - '4'
 
 before_install:
-  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then sudo apt-get install -qq imagemagick ghostscript; fi"
+  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then apt-get install -qq imagemagick ghostscript; fi"
   - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'osx' ]; then brew install imagemagick ghostscript; fi"
+
+before_script:
+  - npm prune
+
+script:
+  - npm test
+
+after_success:
+  - npm run semantic-release
+
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/

@@ -267,6 +267,10 @@ You can also chain it with pretty much with any loader, you just need to underst
     </tr>
 </table>
 
+## Testing
+
+To run the tests locally it's necessary to have installed [ImageMagick](http://www.imagemagick.org/script/download.php) and [GhostScript](https://ghostscript.com/download/gsdnld.html)
+
 ## License
 
 [MIT](LICENSE) © [Rafael Milewski](https://rafael-milewski.com?github=readme)

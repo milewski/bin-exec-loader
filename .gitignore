@@ -5,3 +5,4 @@ node_modules
 !examples/**/*.js
 examples/**/output
 examples/**/output/**
+test/temp

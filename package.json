@@ -1,6 +1,6 @@
 {
   "name": "bin-exec-loader",
-  "version": "1.3.1",
+  "version": "0.0.0-development",
   "description": "Execute any binary as a webpack loader",
   "keywords": [
     "webpack-loader",
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/milewski/bin-exec-loader.git"
+    "url": "https://github.com/milewski/bin-exec-loader.git"
   },
   "scripts": {
     "prepublish": "npm run build && npm test",
@@ -38,6 +38,10 @@
     "pretest": "npm run build",
     "postbuild": "cross-os make-execultable",
     "build": "tsc",
+    "precommit": "npm test",
+    "prepush": "npm test",
+    "commit": "git-cz",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "make-execultable": {
       "linux": "chmod +x test/sample-files/copy-cat.js",
       "darwin": "chmod +x test/sample-files/copy-cat.js"
@@ -50,23 +54,32 @@
     "calipers-jpeg": "^2.0.0",
     "calipers-png": "^2.0.0",
     "calipers-svg": "^2.0.0",
-    "execa": "^0.6.3",
-    "fs-extra": "^2.1.2",
+    "execa": "^0.7.0",
+    "fs-extra": "^4.0.0",
     "loader-utils": "^1.1.0",
     "options-to-spawn-args": "^2.1.1",
     "temp-write": "^3.2.0",
     "tempy": "^0.1.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^3.0.3",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^7.0.18",
+    "@types/node": "^8.0.14",
     "cross-os": "^1.0.0",
+    "cz-conventional-changelog": "^2.0.0",
     "expect.js": "^0.3.1",
-    "file-loader": "^0.11.1",
-    "file-type": "^4.1.0",
+    "file-loader": "^0.11.2",
+    "file-type": "^5.2.0",
+    "husky": "^0.14.3",
     "loader-runner": "^2.3.0",
-    "mocha": "^3.2.0",
+    "mocha": "^3.4.2",
     "pngquant-bin": "^3.1.1",
-    "typescript": "^2.3.2"
+    "semantic-release": "^6.3.6",
+    "typescript": "^2.4.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
