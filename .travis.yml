@@ -21,7 +21,7 @@ node_js:
   - '4'
 
 before_install:
-  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then apt-get install -qq imagemagick ghostscript; fi"
+  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then sudo apt-get install -qq imagemagick ghostscript; fi"
   - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'osx' ]; then brew install imagemagick ghostscript; fi"
 
 before_script:
