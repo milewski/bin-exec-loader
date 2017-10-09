@@ -59,7 +59,7 @@
     "loader-utils": "^1.1.0",
     "options-to-spawn-args": "^2.1.1",
     "temp-write": "^3.2.0",
-    "tempy": "^0.1.0"
+    "tempy": "^0.2.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^4.0.0",
