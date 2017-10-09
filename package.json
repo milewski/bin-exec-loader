@@ -72,7 +72,7 @@
     "file-type": "^6.1.0",
     "husky": "^0.14.3",
     "loader-runner": "^2.3.0",
-    "mocha": "^3.4.2",
+    "mocha": "^4.0.0",
     "pngquant-bin": "^3.1.1",
     "semantic-release": "^6.3.6",
     "typescript": "^2.4.2"
