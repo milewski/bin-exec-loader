@@ -1,21 +1,21 @@
-import { parseDollars, stripeOutDollars, tokenizer, ensureDir } from "./helpers";
-import { interpolateName } from "loader-utils";
-import * as fs from "fs-extra";
-import * as exec from "execa";
-import * as tempWrite from "temp-write";
-import * as path from "path";
+import * as exec from 'execa'
+import * as fs from 'fs-extra'
+import { interpolateName } from 'loader-utils'
+import * as path from 'path'
+import * as tempWrite from 'temp-write'
+import { ensureDir, parseDollars, stripeOutDollars, tokenizer } from './helpers'
 
 export function execBuffer({ input, binary, query, file, multiple, emitFile, args }) {
 
     if (!Buffer.isBuffer(input)) {
-        return Promise.reject(new Error('Input is must to be a buffer'));
+        return Promise.reject(new Error('Input is must to be a buffer'))
     }
 
     /**
      * If it's a function resolve things locally
      */
     if (typeof binary !== 'string') {
-        return Promise.reject(new Error('Binary should be a string or an absolute path to an executable file.'));
+        return Promise.reject(new Error('Binary should be a string or an absolute path to an executable file.'))
     }
 
     const params = Object.assign({
@@ -23,7 +23,7 @@ export function execBuffer({ input, binary, query, file, multiple, emitFile, arg
         output: multiple ? ensureDir(file) : tempWrite.sync(null, file)
     }, query)
 
-    const options = tokenizer(args, params).filter(stripeOutDollars).map(parseDollars);
+    const options = tokenizer(args, params).filter(stripeOutDollars).map(parseDollars)
 
     return exec(binary, options)
         .then(({ stdout }) => {
@@ -43,7 +43,7 @@ export function execBuffer({ input, binary, query, file, multiple, emitFile, arg
 
                         if (emitFile instanceof RegExp && !emitFile.test(item) || !emitFile) return false
 
-                        const outPath = path.join(outDir, path.basename(item));
+                        const outPath = path.join(outDir, path.basename(item))
 
                         return {
                             name: path.normalize(path.dirname(file) + path.sep + item),

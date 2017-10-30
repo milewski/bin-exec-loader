@@ -1,20 +1,20 @@
-import * as util from "util";
-import * as tempy from 'tempy';
-import * as path from 'path';
-import * as fs from 'fs-extra';
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import * as tempy from 'tempy'
+import * as util from 'util'
 
 /**
  * Convert CamelCasedString to camel-cased-string
  */
 export function toDashed(string: string): string {
-    return string.replace(/([A-Z])/g, result => `-${result[0].toLowerCase()}`)
+    return string.replace(/([A-Z])/g, result => `-${result[ 0 ].toLowerCase()}`)
 }
 
 /**
  * Scape Regular Expression String
  */
 export function escape(string): string {
-    return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 }
 
 /**
@@ -39,18 +39,18 @@ export function parseDollars(string: string) {
 export function tokenizer(args: string | string[], replacements, identifier = '[%s]'): string[] {
 
     if (!Array.isArray(args)) {
-        args = [args]
+        args = [ args ]
     }
 
     const expressions = Object
         .keys(replacements)
-        .map(key => [escape(util.format(identifier, key)), replacements[key]])
+        .map(key => [ escape(util.format(identifier, key)), replacements[ key ] ])
 
     return args.map(source => {
 
         if (typeof source === 'function') {
 
-            let name = source['name'];
+            let name = source[ 'name' ]
 
             source = source(replacements)
 
@@ -60,7 +60,7 @@ export function tokenizer(args: string | string[], replacements, identifier = '[
 
         }
 
-        expressions.forEach(([expression, replacement]) => {
+        expressions.forEach(([ expression, replacement ]) => {
 
             if (typeof replacement === 'function')
                 replacement = replacement()
@@ -70,12 +70,12 @@ export function tokenizer(args: string | string[], replacements, identifier = '[
 
         })
 
-        const optional = /\[(.*\b)(?:=(.*))]/.exec(source);
+        const optional = /\[(.*\b)(?:=(.*))]/.exec(source)
 
         if (optional)
-            source = replacements[optional[1]] || optional[2]
+            source = replacements[ optional[ 1 ] ] || optional[ 2 ]
 
-        return source;
+        return source
 
     })
 

@@ -1,12 +1,12 @@
-import { getOptions, interpolateName, parseQuery } from "loader-utils";
-import { toSpawnArgs } from "options-to-spawn-args";
-import { toDashed } from "./helpers";
-import { OptionsInterface } from "./interfaces/OptionsInterface";
-import { execBuffer } from "./exec";
-import * as path from "path";
-import * as calipers from 'calipers';
+import * as calipers from 'calipers'
+import { getOptions, interpolateName, parseQuery } from 'loader-utils'
+import { toSpawnArgs } from 'options-to-spawn-args'
+import * as path from 'path'
+import { execBuffer } from './exec'
+import { toDashed } from './helpers'
+import { OptionsInterface } from './interfaces/OptionsInterface'
 
-export const raw = true;
+export const raw = true
 export default function (content) {
 
     let config = Object.assign({ args: {} }, getOptions(this) || {}),
@@ -26,10 +26,10 @@ export default function (content) {
             args: {}
         })
 
-    if (this.cacheable) this.cacheable(options.cache);
+    if (this.cacheable) this.cacheable(options.cache)
 
     for (let key in config.args) {
-        options.args[toDashed(key)] = config.args[key]
+        options.args[ toDashed(key) ] = config.args[ key ]
     }
 
     if (delete config.args) {
@@ -38,9 +38,9 @@ export default function (content) {
         throw new Error('Couldn\'t delete old args...')
     }
 
-    if (options.enable === false) return content;
+    if (options.enable === false) return content
 
-    const callback = this.async();
+    const callback = this.async()
 
     const file = path.parse(this.resource)
     const url = interpolateName(this, options.name, { content, context: options.context, regExp: options.regExp })
@@ -48,7 +48,7 @@ export default function (content) {
     /**
      * Replace original name with desired path/filename+extension
      */
-    this.resource = path.join(file.dir, url);
+    this.resource = path.join(file.dir, url)
 
     execBuffer({
         input: content,
@@ -57,7 +57,7 @@ export default function (content) {
         file: url,
         multiple: options.multiple,
         emitFile: options.emitFile,
-        args: toSpawnArgs(options.args, { ...options }),
+        args: toSpawnArgs(options.args, { ...options })
     }).then(data => {
 
         if (data instanceof Array) {
@@ -67,32 +67,32 @@ export default function (content) {
             const tokens = {
                 width: resource => instance.measure(resource).then(({ pages }) => {
 
-                    let { width, height } = pages[0];
+                    let { width, height } = pages[ 0 ]
 
-                    cache[resource].width = width
-                    cache[resource].height = height
+                    cache[ resource ].width = width
+                    cache[ resource ].height = height
 
                     return width
 
                 }),
                 height: resource => instance.measure(resource).then(({ pages }) => {
 
-                    let { width, height } = pages[0];
+                    let { width, height } = pages[ 0 ]
 
-                    cache[resource].width = width
-                    cache[resource].height = height
+                    cache[ resource ].width = width
+                    cache[ resource ].height = height
 
                     return height
 
-                }),
+                })
             }
 
             const replacer = (name, key, path, file) => {
 
-                if (cache[path][key])
-                    return name.replace(new RegExp(`\\[${key}]`, 'g'), cache[path][key])
+                if (cache[ path ][ key ])
+                    return name.replace(new RegExp(`\\[${key}]`, 'g'), cache[ path ][ key ])
 
-                return tokens[key](path).then(() => replacer(name, key, path, file))
+                return tokens[ key ](path).then(() => replacer(name, key, path, file))
 
             }
 
@@ -100,9 +100,9 @@ export default function (content) {
 
                 const promises = data.map(({ name, file, path }) => {
 
-                    cache[path] = {}
+                    cache[ path ] = {}
 
-                    let promise = Promise.resolve(name);
+                    let promise = Promise.resolve(name)
 
                     for (let key in tokens) {
                         promise = promise.then(entry => replacer(entry, key, path, file))
@@ -114,7 +114,7 @@ export default function (content) {
 
                 Promise.all(promises).then(resolution => {
                     resolve(data.map(({ path, file }, index) => {
-                        return { path, name: resolution[index], file }
+                        return { path, name: resolution[ index ], file }
                     }))
                 })
 
@@ -123,7 +123,7 @@ export default function (content) {
 
         }
 
-        return data;
+        return data
 
     }).then(data => {
 
@@ -137,7 +137,7 @@ export default function (content) {
                 return this.emitFile(name, file) || '__PATH__' + name
             })
 
-            data = JSON.stringify(paths).replace(/"__PATH__/g, '__webpack_public_path__ +"');
+            data = JSON.stringify(paths).replace(/"__PATH__/g, '__webpack_public_path__ +"')
 
         } else if (
             (options.emitFile instanceof RegExp && options.emitFile.test(url)) || options.emitFile === true
@@ -151,6 +151,6 @@ export default function (content) {
 
         callback(null, data)
 
-    }).catch(error => callback(error));
+    }).catch(error => callback(error))
 
 }

@@ -55,7 +55,7 @@
     "calipers-png": "^2.0.0",
     "calipers-svg": "^2.0.0",
     "execa": "^0.7.0",
-    "fs-extra": "^4.0.0",
+    "fs-extra": "^4.0.2",
     "loader-utils": "^1.1.0",
     "options-to-spawn-args": "^2.1.1",
     "temp-write": "^3.2.0",
@@ -63,19 +63,19 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^3.0.3",
-    "@types/mocha": "^2.2.41",
-    "@types/node": "^8.0.14",
-    "cross-os": "^1.0.0",
-    "cz-conventional-changelog": "^2.0.0",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.0.47",
+    "cross-os": "^1.2.2",
+    "cz-conventional-changelog": "^2.1.0",
     "expect.js": "^0.3.1",
     "file-loader": "^0.11.2",
     "file-type": "^5.2.0",
     "husky": "^0.14.3",
     "loader-runner": "^2.3.0",
-    "mocha": "^3.4.2",
+    "mocha": "^3.5.3",
     "pngquant-bin": "^3.1.1",
     "semantic-release": "^6.3.6",
-    "typescript": "^2.4.2"
+    "typescript": "^2.5.3"
   },
   "config": {
     "commitizen": {

@@ -1,9 +1,9 @@
-import * as expect from "expect.js";
-import * as fileType from "file-type";
-import * as fs from "fs-extra";
-import { runLoaders } from "loader-runner";
-import * as path from "path";
-import * as queryString from "querystring";
+import * as expect from 'expect.js'
+import * as fileType from 'file-type'
+import * as fs from 'fs-extra'
+import { runLoaders } from 'loader-runner'
+import * as path from 'path'
+import * as queryString from 'querystring'
 
 function cleanUp() {
     try {
@@ -21,11 +21,11 @@ function runner(options, callback: Function, { file = 'sample.png', query = null
                 emitFile: (name, buffer) => {
                     fs.ensureDirSync(path.resolve(__dirname, 'temp', path.dirname(name)))
                     fs.writeFileSync(path.resolve(__dirname, 'temp', name), buffer, { encoding: 'utf8' })
-                },
+                }
             },
             loaders: [
                 { loader: path.resolve(__dirname, '../source/loader'), options }
-            ],
+            ]
         },
         (error, { resourceBuffer, result }) => {
             if (!error) expect(result).to.have.length(1)
@@ -95,7 +95,7 @@ describe('Loader', () => {
             }
         }, ({ error, input, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(fileType(output).ext).to.be('gif')
             expect(output.byteLength).to.be.below(input.byteLength)
@@ -104,7 +104,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should accept npm modules as well', done => {
 
@@ -118,7 +118,7 @@ describe('Loader', () => {
             }
         }, ({ error, input, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(fileType(output).ext).to.be('png')
             expect(output.byteLength).to.be.below(input.byteLength)
@@ -127,7 +127,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should work with node scripts', done => {
 
@@ -136,7 +136,7 @@ describe('Loader', () => {
             args: { input: '[input]', output: '[output]' }
         }, ({ error, input, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(fileType(output).ext).to.be('png')
             expect(output).to.eql(input)
@@ -145,7 +145,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should allow to change extension', done => {
 
@@ -156,7 +156,7 @@ describe('Loader', () => {
             args: { $1: '[input]', resize: '50%', $2: '[output]' }
         }, ({ error, input, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(fileType(output).ext).to.be('jpg')
             expect(output.byteLength).to.be.below(input.byteLength)
@@ -165,7 +165,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should keep the original extension if no extension set', done => {
 
@@ -175,7 +175,7 @@ describe('Loader', () => {
             args: { $1: '[input]', resize: '50%', $2: '[output]' }
         }, ({ error, input, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(fileType(output).ext).to.be('png')
             expect(output.byteLength).to.be.below(input.byteLength)
@@ -184,7 +184,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should emit file correctly', done => {
 
@@ -195,7 +195,7 @@ describe('Loader', () => {
             args: { $1: '[input]', resize: '50%', $2: '[output]' }
         }, ({ error, input, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(output).to.eql(fs.readFileSync(path.resolve(__dirname, 'temp/test.json')))
 
@@ -203,7 +203,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should accept a RegExp as emitFile', done => {
 
@@ -216,7 +216,7 @@ describe('Loader', () => {
             args: { $1: '[input]', resize: '50%', $2: '[output]' }
         }, ({ error, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             let jsonFile = fs.readFileSync(path.resolve(__dirname, 'temp/test.json')).toString()
 
@@ -226,7 +226,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should not emit file if set to not do so', done => {
 
@@ -238,7 +238,7 @@ describe('Loader', () => {
             args: { $1: '[input]', resize: '50%', $2: '[output]' }
         }, ({ error, input, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(() => {
                 fs.readFileSync(path.resolve(__dirname, 'temp/fake.jpg'))
@@ -248,7 +248,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should allow to export the stdout instead of writing file to disk', done => {
 
@@ -260,7 +260,7 @@ describe('Loader', () => {
             args: { $1: '[input]', resize: '50%', $2: '[output]' }
         }, ({ error, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(output).to.match(/module\.exports/)
 
@@ -268,7 +268,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should accept camel cased args', done => {
 
@@ -284,7 +284,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should accept a function as prefix', done => {
 
@@ -295,7 +295,7 @@ describe('Loader', () => {
             args: { $1: '[input]', resize: '50%', $2: '[output]' }
         }, ({ error, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(output).to.eql(fs.readFileSync(path.resolve(__dirname, 'temp/another-test.json')))
 
@@ -303,7 +303,7 @@ describe('Loader', () => {
 
         })
 
-    });
+    })
 
     it('should accept a query directly from require', done => {
 
@@ -313,7 +313,7 @@ describe('Loader', () => {
             args: { $1: '[input]', resize: '[resize]', $2: '[output]' }
         }, ({ error, input, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(fileType(output).ext).to.be('png')
             expect(output.byteLength).to.be.above(input.byteLength)
@@ -322,7 +322,7 @@ describe('Loader', () => {
 
         }, { query: { resize: '200%' } })
 
-    });
+    })
 
     it('should accept a regular expression as emitFile for multiple outputs', done => {
 
@@ -335,7 +335,7 @@ describe('Loader', () => {
             args: { $1: '[input]', $2: '[output]' }
         }, ({ error, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(output.length).to.be(178)
 
@@ -343,7 +343,7 @@ describe('Loader', () => {
 
         }, { file: 'sample.pdf' })
 
-    });
+    })
 
     it('should works correctly with a very long output path', done => {
 
@@ -355,7 +355,7 @@ describe('Loader', () => {
             args: { $1: '[input]', $2: '[output]' }
         }, ({ error, output }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
             expect(output).to.match(/very.*deep.*directory.*output-\d\.jpg/)
 
@@ -363,7 +363,7 @@ describe('Loader', () => {
 
         }, { file: 'sample.pdf' })
 
-    });
+    })
 
     it('should accept special tokens for image outputs', done => {
 
@@ -376,9 +376,9 @@ describe('Loader', () => {
             args: { $1: '[input]', $2: '[output]' }
         }, ({ error }) => {
 
-            if (error) return done(error);
+            if (error) return done(error)
 
-            const files = fs.readdirSync(path.resolve(__dirname, 'temp'));
+            const files = fs.readdirSync(path.resolve(__dirname, 'temp'))
 
             files.forEach(file => {
                 expect(file).to.match(/960-output-960x560x560-\d.jpg$/)
@@ -390,7 +390,7 @@ describe('Loader', () => {
 
         }, { file: 'sample.pdf' })
 
-    });
+    })
 
     it('should accept default values for args', done => {
 
@@ -399,7 +399,7 @@ describe('Loader', () => {
             prefix: '-',
             emitFile: /\.jpg$/,
             name: 'output.jpg',
-            args: { alpha: '[beta=test]', resize: '[gama=50%]', }
+            args: { alpha: '[beta=test]', resize: '[gama=50%]' }
         }, ({ error }) => {
 
             expect(error.cmd).to.match(/convert -alpha test -resize 50%$/)
@@ -408,6 +408,6 @@ describe('Loader', () => {
 
         }, { query: {} })
 
-    });
+    })
 
 })
