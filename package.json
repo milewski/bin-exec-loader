@@ -64,7 +64,7 @@
   "devDependencies": {
     "@types/fs-extra": "^5.0.0",
     "@types/mocha": "^2.2.44",
-    "@types/node": "^8.5.1",
+    "@types/node": "^9.3.0",
     "cross-os": "^1.2.2",
     "cz-conventional-changelog": "^2.1.0",
     "expect.js": "^0.3.1",
