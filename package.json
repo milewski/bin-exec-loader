@@ -74,7 +74,7 @@
     "loader-runner": "^2.3.0",
     "mocha": "^4.0.1",
     "pngquant-bin": "^3.1.1",
-    "semantic-release": "^11.0.2",
+    "semantic-release": "^12.2.2",
     "typescript": "^2.6.2"
   },
   "config": {
