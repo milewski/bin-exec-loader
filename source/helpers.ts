@@ -46,7 +46,7 @@ export function tokenizer(args: string | string[], replacements, identifier = '[
         .keys(replacements)
         .map(key => [ escape(util.format(identifier, key)), replacements[ key ] ])
 
-    return args.map(source => {
+    return args.map((source: string | any) => {
 
         if (typeof source === 'function') {
 
