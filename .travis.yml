@@ -18,7 +18,6 @@ node_js:
   - 'node'
   - '7'
   - '6'
-  - '4'
 
 before_install:
   - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then sudo apt-get install -qq imagemagick ghostscript; fi"
