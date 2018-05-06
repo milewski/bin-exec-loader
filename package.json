@@ -41,7 +41,7 @@
     "precommit": "npm test",
     "prepush": "npm test",
     "commit": "git-cz",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release",
     "make-execultable": {
       "linux": "chmod +x test/sample-files/copy-cat.js",
       "darwin": "chmod +x test/sample-files/copy-cat.js"
