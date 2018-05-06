@@ -85,7 +85,7 @@ const smallImage = require('./test/sample-files/sample.png?resize=50%25') // 50%
 }
 ```
 
-if your binary produces multiple output you can grab those like this:
+if your binary produces multiple outputs you can grab those like this:
 > convert each page of a pdf to jpg and retrieve an array of paths as result
 
 ```js
