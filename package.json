@@ -69,7 +69,7 @@
     "cz-conventional-changelog": "^2.1.0",
     "expect.js": "^0.3.1",
     "file-loader": "^1.1.11",
-    "file-type": "^7.7.1",
+    "file-type": "^8.0.0",
     "husky": "^0.14.3",
     "loader-runner": "^2.3.0",
     "mocha": "^5.1.1",
