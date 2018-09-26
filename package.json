@@ -70,7 +70,7 @@
     "expect.js": "^0.3.1",
     "file-loader": "^1.1.11",
     "file-type": "^7.7.1",
-    "husky": "^0.14.3",
+    "husky": "^1.0.0",
     "loader-runner": "^2.3.0",
     "mocha": "^5.1.1",
     "pngquant-bin": "^4.0.0",
