@@ -56,7 +56,7 @@
     "calipers-svg": "^2.0.0",
     "execa": "^0.10.0",
     "fs-extra": "^7.0.0",
-    "loader-utils": "^1.1.0",
+    "loader-utils": "^1.2.0",
     "options-to-spawn-args": "^2.1.1",
     "temp-write": "^3.4.0",
     "tempy": "^0.2.1"
