@@ -71,7 +71,7 @@
     "file-loader": "^1.1.11",
     "file-type": "^7.7.1",
     "husky": "^0.14.3",
-    "loader-runner": "^2.3.0",
+    "loader-runner": "^3.0.0",
     "mocha": "^5.1.1",
     "pngquant-bin": "^4.0.0",
     "semantic-release": "^15.3.1",
