@@ -1,6 +1,5 @@
 # bin-exec-loader
 
-[![Build Status](https://travis-ci.org/milewski/bin-exec-loader.svg?branch=master)](https://travis-ci.org/milewski/bin-exec-loader)
 [![npm version](https://badge.fury.io/js/bin-exec-loader.svg)](https://badge.fury.io/js/bin-exec-loader)
 [![npm downloads](https://img.shields.io/npm/dm/bin-exec-loader.svg)](https://www.npmjs.com/package/bin-exec-loader)
 
