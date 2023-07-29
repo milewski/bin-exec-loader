@@ -3,8 +3,6 @@
 [![Build Status](https://travis-ci.org/milewski/bin-exec-loader.svg?branch=master)](https://travis-ci.org/milewski/bin-exec-loader)
 [![npm version](https://badge.fury.io/js/bin-exec-loader.svg)](https://badge.fury.io/js/bin-exec-loader)
 [![npm downloads](https://img.shields.io/npm/dm/bin-exec-loader.svg)](https://www.npmjs.com/package/bin-exec-loader)
-[![dependencies](https://david-dm.org/milewski/bin-exec-loader.svg)](https://www.npmjs.com/package/bin-exec-loader)
-[![Greenkeeper badge](https://badges.greenkeeper.io/milewski/bin-exec-loader.svg)](https://greenkeeper.io/)
 
 Pipe **any file** through **any binary** with webpack.
 
