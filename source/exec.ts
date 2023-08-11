@@ -20,7 +20,7 @@ export function execBuffer({ input, binary, query, file, multiple, emitFile, arg
 
     const params = Object.assign({
         input: tempWrite.sync(input, file),
-        output: multiple ? ensureDir(file) : tempWrite.sync(null, file)
+        output: multiple ? ensureDir(file) : tempWrite.sync("", file)
     }, query)
 
     const options = tokenizer(args, params).filter(stripeOutDollars).map(parseDollars)
